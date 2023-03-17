@@ -5,7 +5,6 @@ from .architecture.face.gfpganv1_clean_arch import GFPGANv1Clean
 from .architecture.face.restoreformer_arch import RestoreFormer
 from .architecture.HAT import HAT
 from .architecture.LaMa import LaMa
-from .architecture.MAT import MAT
 from .architecture.RRDB import RRDBNet as ESRGAN
 from .architecture.SPSR import SPSRNet as SPSR
 from .architecture.SRVGG import SRVGGNetCompact as RealESRGANv2
@@ -36,7 +35,6 @@ def load_state_dict(state_dict) -> PyTorchModel:
     if "body.0.weight" in state_dict_keys and "body.1.weight" in state_dict_keys:
         model = RealESRGANv2(state_dict)
     # SPSR (ESRGAN with lots of extra layers)
-    elif "f_HR_conv1.0.weight" in state_dict:
         model = SPSR(state_dict)
     # Swift-SRGAN
     elif (
@@ -66,7 +64,6 @@ def load_state_dict(state_dict) -> PyTorchModel:
     ):
         model = RestoreFormer(state_dict)
     elif (
-        "encoder.blocks.0.weight" in state_dict_keys
         and "quantize.embedding.weight" in state_dict_keys
     ):
         model = CodeFormer(state_dict)
